@@ -37,12 +37,28 @@ def getAllFavouritesByUser(request):
 
 @login_required
 def saveFavourite(request):
+     if request.method == 'POST':
+        favourite_id = request.POST.get('favourite_id')
+         if favourite_id:
+            success = services.saveFavourite(request.user, favourite_id)
+             if success:
+                return redirect('favourites')
+    return redirect('home')
     pass
 
 @login_required
 def deleteFavourite(request):
+    if request.method == 'POST':
+        favourite_id = request.POST.get('favourite_id')
+        if favourite_id:
+            success = services.deleteFavourite(request.user, favourite_id)
+            if success:
+                return redirect('favourites')
+    return redirect('home')
     pass
 
 @login_required
 def exit(request):
+    logout(request)
+    return redirect('index')
     pass
